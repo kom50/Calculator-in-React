@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator App</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100vh;
+            display: grid;
+            place-content: center;
+        }
+        
+        #div1 {
+            padding: 10px;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 1px 1px 9px gray;
+            border: 1px solid blue;
+        }
+        
+        .btn {
+            padding: 10px;
+            background-color: white;
+            outline: none;
+            width: 60px;
+            height: 60px;
+            font-size: 18px;
+            color: blue;
+            border-radius: 50%;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid black;
+            box-shadow: 1px 1px 5px black;
+            margin: 2px;
+        }
+        
+        .btn:active {
+            background-color: whitesmoke;
+            box-shadow: 0 0 black;
+            border-color: white;
+        }
+        
+        #field {
+            height: 35px;
+            width: 98%;
+            font-size: 18px;
+            text-align: right;
+            border-radius: 10px;
+            position: relative;
+            top: 1px;
+        }
+        
+        p.btn1 {
+            display: block;
+            width: 36px;
+            height: 36px;
+        }
+        
+        .btn1,
+        .btn2,
+        .btn3,
+        .btn4 {
+            position: relative;
+            bottom: -1px;
+        }
+        
+        .btn20 {
+            background-color: red;
+            color: white;
+            border-color: white;
+        }
+        
+        .btn4 {
+            background-color: rgb(9, 255, 0);
+            color: rgb(43, 8, 241);
+            border-color: white;
+        }
+        
+        .btn8 {
+            background-color: rgb(255, 0, 170);
+            color: white;
+            border-color: white;
+        }
+        
+        .btn12 {
+            background-color: rgb(255, 208, 0);
+            color: white;
+            border-color: white;
+        }
+        
+        .btn16 {
+            border-color: white;
+            background-color: rgb(0, 195, 255);
+            color: white;
+        }
+        
+        .btn20:active,
+        .btn4:active,
+        .btn12:active,
+        .btn16:active,
+        .btn20:active {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="div1">
+        <form>
+            <table id="table1">
+                <tr>
+                    <td colspan="4"> <input type="text" name="show" id="field" disabled></td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="btn btn1" type="button" value="pow" onclick="operation('pow')">x<sup>2</sup></p>
+                    </td>
+                    <td><input class="btn btn2" type="button" value="C" onclick="operation('C')"></td>
+                    <td><input class="btn btn3" type="button" value="CE" onclick="operation('CE')"></td>
+                    <td><input class="btn btn4" type="button" value="/" onclick="operation('/')"></td>
+                </tr>
+                <tr>
+                    <td> <input class="btn btn5" type="button" value="7" onclick="show.value+='7'"> </td>
+                    <td> <input class="btn btn6" type="button" value="8" onclick="show.value+='8'"> </td>
+                    <td> <input class="btn btn7" type="button" value="9" onclick="show.value+='9'"> </td>
+                    <td> <input class="btn btn8" type="button" value="*" onclick="operation('*')"></td>
+                </tr>
+                <tr>
+                    <td> <input class="btn btn9" type="button" value="4" onclick="show.value+='4'"> </td>
+                    <td> <input class="btn btn10" type="button" value="5" onclick="show.value+='5'"> </td>
+                    <td> <input class="btn btn11" type="button" value="6" onclick="show.value+='6'"> </td>
+                    <td> <input class="btn btn12" type="button" value="-" onclick="operation('-')"> </td>
+                </tr>
+                <tr>
+                    <td> <input class="btn btn13" type="button" value="1" onclick="show.value+='1'"> </td>
+                    <td> <input class="btn btn14" type="button" value="2" onclick="show.value+='2'"> </td>
+                    <td> <input class="btn btn15" type="button" value="3" onclick="show.value+='3'"> </td>
+                    <td> <input class="btn btn16" type="button" value="+" onclick="operation('+')"></td>
+
+                </tr>
+                <tr>
+                    <td> <input class="btn btn17" type="button" value="0" onclick="show.value+='0'"> </td>
+                    <td> <input class="btn btn18" type="button" value="." onclick="operation('.')"> </td>
+                    <td><input class="btn btn19" type="button" value="%" onclick="operation('%')"></td>
+                    <td> <input class="btn btn20" type="button" value="=" onclick="operation('=')"> </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <script>
+        var field = document.getElementById("field");
+
+        function operation(operator) {
+            let exp = field.value
+            switch (operator) {
+                case 'pow':
+                    field.value = exp * exp;
+                    break;
+                case 'C':
+                    field.value = exp.substring(0, exp.length - 1);
+                    break;
+                case 'CE':
+                    field.value = '';
+                    break;
+                case '.':
+                    if (exp == "" || !isDigit(exp.charAt(exp.length - 1))) {
+                        field.value = exp + "0.";
+
+                    } else if (exp != "") {
+                        if (exp.lastIndexOf(".", exp.length - 1) == -1) {
+                            field.value = exp + ".";
+                        }
+                    }
+                    break;
+                case '=':
+                    if (isDigit(exp.charAt(exp.length - 1)))
+                        field.value = eval(exp);
+                    break;
+                default: // operators -, +, *, /
+                    if (operator == '-')
+                        field.value = '-'
+                    if (exp != "") {
+                        if (isDigit(exp.charAt(exp.length - 1))) {
+                            field.value = exp + operator;
+                        } else {
+                            exp = exp.substring(0, exp.length - 1);
+                            field.value = exp + operator
+                        }
+                    }
+            }
+        }
+
+        function isDigit(ch) {
+            if (ch >= 0 && ch <= 9 || ch == '.')
+                return true;
+            else
+                return false;
+        }
+    </script>
+</body>
+
+</html>
